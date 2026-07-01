@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi panel — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Hola, {{ session.get('nombre', 'Usuario') }} 👋</h1>
+        <p>
+            Bienvenido al sistema del PEC. Tu rol es:
+            <strong>{{ session.get('rol', '') }}</strong>
+        </p>
+    </section>
+</header>
+
+<main>
+
+    <section class="tarjetas-contenedor">
+        <h2>¿Qué puedes hacer?</h2>
+
+        <div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center;">
+
+            <!-- 🔵 MAESTRO -->
+            {% if session.get('rol') == 'Maestro' %}
+
+                <a href="/maestros/panel" class="rol-card" style="max-width:280px;">
+                    <span class="icono">📋</span>
+                    <h3>Panel Maestro</h3>
+                    <p>Accede a tu panel completo de administración del PEC.</p>
+                </a>
+
+                <a href="/maestros/actividades" class="rol-card" style="max-width:280px;">
+                    <span class="icono">📚</span>
+                    <h3>Actividades</h3>
+                    <p>Registra y administra las actividades del proyecto PEC.</p>
+                </a>
+
+                <a href="/maestros/responsables" class="rol-card" style="max-width:280px;">
+                    <span class="icono">👨‍🏫</span>
+                    <h3>Responsables</h3>
+                    <p>Gestiona los docentes responsables de cada actividad.</p>
+                </a>
+
+                <a href="/maestros/evidencias" class="rol-card" style="max-width:280px;">
+                    <span class="icono">📸</span>
+                    <h3>Evidencias</h3>
+                    <p>Sube y administra las evidencias del proyecto.</p>
+                </a>
+
+            <!-- 🟢 ALUMNO -->
+            {% elif session.get('rol') == 'Alumno' %}
+
+                <a href="/alumnos/panel" class="rol-card" style="max-width:280px;">
+                    <span class="icono">📋</span>
+                    <h3>Panel Alumno</h3>
+                    <p>Consulta las actividades y evidencias del proyecto PEC.</p>
+                </a>
+
+            <!-- 🔴 ADMINISTRADOR (NUEVO) -->
+            {% elif session.get('rol') == 'Administrador' %}
+
+                <a href="/admin/panel" class="rol-card" style="max-width:280px;">
+                    <span class="icono">🛠️</span>
+                    <h3>Panel Administrador</h3>
+                    <p>Accede a la administración general del sistema PEC.</p>
+                </a>
+
+                <a href="/admin/usuarios" class="rol-card" style="max-width:280px;">
+                    <span class="icono">👥</span>
+                    <h3>Gestión de usuarios</h3>
+                    <p>Registrar, editar y eliminar usuarios del sistema.</p>
+                </a>
+
+                <a href="/admin/sedes" class="rol-card" style="max-width:280px;">
+                    <span class="icono">🏫</span>
+                    <h3>Gestión de sedes</h3>
+                    <p>Agregar, editar y eliminar las sedes del proyecto.</p>
+                </a>
+
+                <a href="/admin/actividades" class="rol-card" style="max-width:280px;">
+                    <span class="icono">📊</span>
+                    <h3>Control general</h3>
+                    <p>Supervisa todas las actividades del sistema PEC.</p>
+                </a>
+
+            {% endif %}
+
+        </div>
+    </section>
+
+    <section class="seccion" style="text-align:center;">
+        <a href="/logout" class="boton-secundario">🚪 Cerrar sesión</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+</footer>
+
+</body>
+</html>

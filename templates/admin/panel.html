@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Administrador — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🛠️ Panel Administrador PEC</h2>
+        <ul>
+            <li><a href="/admin/panel">Mi panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Administrador 👨‍💻</h1>
+        <p>Gestión completa del sistema PEC</p>
+    </section>
+</header>
+
+<main>
+
+<section class="tarjetas-contenedor">
+    <h2>Opciones de administración</h2>
+
+    <div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center;">
+
+        <a href="/admin/usuarios" class="rol-card" style="max-width:280px;">
+            <span class="icono">👥</span>
+            <h3>Usuarios</h3>
+            <p>Crear, editar y eliminar usuarios del sistema.</p>
+        </a>
+
+        <a href="/admin/sedes" class="rol-card" style="max-width:280px;">
+            <span class="icono">🏫</span>
+            <h3>Sedes</h3>
+            <p>Administrar las sedes del proyecto PEC.</p>
+        </a>
+        
+
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>PEC — Panel de administración</p>
+</footer>
+
+</body>
+</html>

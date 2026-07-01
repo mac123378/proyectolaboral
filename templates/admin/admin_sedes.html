@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sedes — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/admin/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    <section class="hero">
+        <h1>🏫 Gestión de Sedes</h1>
+        <p>Agrega y administra las sedes del proyecto PEC.</p>
+    </section>
+</header>
+
+<main>
+<section class="seccion">
+
+    <h2>Agregar nueva sede</h2>
+
+    {% if request.args.get('ok') == '1' %}
+        <div class="alerta-ok">✅ Sede agregada correctamente.</div>
+    {% endif %}
+
+    <form method="POST" action="/admin/sedes">
+        <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" placeholder="Nombre de la sede" required>
+        </div>
+        <div class="form-group">
+            <label>Dirección:</label>
+            <input type="text" name="direccion" placeholder="Dirección">
+        </div>
+        <div class="form-group">
+            <label>Municipio:</label>
+            <input type="text" name="municipio" placeholder="Municipio">
+        </div>
+        <button type="submit" class="boton-principal">➕ Agregar sede</button>
+    </form>
+
+</section>
+
+<section class="tarjetas-contenedor">
+    <h2>Sedes registradas</h2>
+
+    {% if sedes %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Municipio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sedes %}
+            <tr>
+                <td>{{ s['id_sede'] }}</td>
+                <td>{{ s['nombre'] }}</td>
+                <td>{{ s['direccion'] }}</td>
+                <td>{{ s['municipio'] }}</td>
+                <td>
+                    <a href="/admin/sedes/eliminar/{{ s['id_sede'] }}"
+                       onclick="return confirm('¿Eliminar esta sede?')"
+                       class="boton-secundario">🗑️ Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay sedes registradas aún.</p>
+    {% endif %}
+
+    <br>
+    <div style="text-align:center;">
+        <a href="/admin/panel" class="boton-secundario">⬅ Volver al panel</a>
+    </div>
+</section>
+</main>
+
+<footer>
+    <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+</footer>
+
+</body>
+</html>

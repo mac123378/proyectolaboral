@@ -1,0 +1,58 @@
+<section class="tarjetas-contenedor">
+    <h2>📸 Gestión de Evidencias</h2>
+
+    {% if evidencias %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Archivo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for e in evidencias %}
+            <tr>
+                <td>{{ e['id_evidencia'] }}</td>
+                <td>{{ e['fecha_evidencia'] }}</td>
+
+                <td>
+                    {% set archivo = e['evidencia'] %}
+
+                    {% if archivo.endswith('.jpg') or archivo.endswith('.jpeg') or archivo.endswith('.png') %}
+                        <img src="/static/uploads/{{ archivo }}" width="100">
+
+                    {% elif archivo.endswith('.mp4') %}
+                        <video width="120" controls>
+                            <source src="/static/uploads/{{ archivo }}">
+                        </video>
+
+                    {% elif archivo.endswith('.pdf') %}
+                        <a href="/static/uploads/{{ archivo }}" target="_blank">📄 Ver PDF</a>
+
+                    {% else %}
+                        <a href="/static/uploads/{{ archivo }}" target="_blank">📎 Ver archivo</a>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="/alumnos/evidencias/editar/{{ e['id_evidencia'] }}">
+                        ✏️ Editar
+                    </a>
+                    <br>
+                    <a href="/alumnos/evidencias/eliminar/{{ e['id_evidencia'] }}"
+                       onclick="return confirm('¿Seguro que quieres eliminar esta evidencia?')">
+                        🗑️ Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+        <p>No hay evidencias registradas.</p>
+    {% endif %}
+</section>

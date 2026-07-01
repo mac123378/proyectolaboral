@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Evidencia — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/alumnos/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>✏️ Editar Evidencia</h1>
+        <p>Modifica el título o el archivo.</p>
+    </section>
+</header>
+
+<main>
+
+<section class="seccion">
+
+    <div class="form-container">
+
+        <h2>Editar evidencia</h2>
+
+        <form action="/alumnos/evidencias/editar/{{ evidencia['id_evidencia'] }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label>Título:</label>
+                <input type="text"
+                       name="titulo"
+                       value="{{ evidencia['fecha_evidencia'] }}"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Nuevo archivo (opcional):</label>
+                <input type="file" name="archivo"
+                       accept="image/*,video/*,.pdf,.doc,.docx">
+            </div>
+
+            {% if evidencia['evidencia'] %}
+                <p style="color:#558b2f;">
+                    Archivo actual:
+                    <strong>{{ evidencia['evidencia'] }}</strong>
+                </p>
+            {% endif %}
+
+            <button type="submit" class="boton-secundario">
+                💾 Guardar cambios
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/alumnos/evidencias" class="boton-principal">
+            ⬅ Volver a evidencias
+        </a>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    <p>🌿 PEC | "Separar hoy, ver un mejor mañana"</p>
+</footer>
+
+</body>
+</html>

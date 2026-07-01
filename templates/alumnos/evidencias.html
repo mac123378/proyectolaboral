@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Evidencias — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+
+    <style>
+        td img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #c5e1a5;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        td img:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.8);
+        }
+
+        .modal-content {
+            margin: 5% auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/alumnos/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>📸 Evidencias</h1>
+        <p>Sube, consulta y administra tus evidencias.</p>
+    </section>
+</header>
+
+<main>
+
+<section class="seccion">
+
+    <h2>📤 Subir evidencia</h2>
+
+    {% if request.args.get('ok') == '1' %}
+        <div class="alerta-ok">
+            ✅ Evidencia subida correctamente.
+        </div>
+    {% endif %}
+
+    {% if request.args.get('ok') == '2' %}
+        <div class="alerta-ok">
+            ✅ Evidencia actualizada correctamente.
+        </div>
+    {% endif %}
+
+    <form action="/alumnos/evidencias" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label>Título:</label>
+            <input type="text" name="titulo" required>
+        </div>
+
+        <div class="form-group">
+            <label>Archivo:</label>
+            <input type="file" name="archivo"
+                   accept="image/*,video/*,.pdf,.doc,.docx"
+                   required>
+        </div>
+
+        <button type="submit" class="boton-secundario">
+            📤 Subir evidencia
+        </button>
+
+    </form>
+
+</section>
+
+<section class="tarjetas-contenedor">
+
+    <h2>📁 Mis evidencias</h2>
+
+    {% if evidencias %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Archivo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for e in evidencias %}
+        <tr>
+
+            <td>{{ e['id_evidencia'] }}</td>
+
+            <td>{{ e['fecha_evidencia'] }}</td>
+
+            <td>
+
+                {% set archivo = e['evidencia'] %}
+
+                {% if archivo %}
+
+                    {% if archivo.endswith('.jpg') or archivo.endswith('.jpeg') or archivo.endswith('.png') or archivo.endswith('.webp') %}
+
+                        <img src="/static/uploads/{{ archivo }}"
+                             onclick="openModal(this.src)">
+
+                    {% elif archivo.endswith('.mp4') or archivo.endswith('.avi') or archivo.endswith('.mov') %}
+
+                        <video width="200" controls>
+                            <source src="/static/uploads/{{ archivo }}">
+                        </video>
+
+                    {% elif archivo.endswith('.pdf') %}
+
+                        <a href="/static/uploads/{{ archivo }}"
+                           target="_blank"
+                           class="boton-principal">
+                            📄 Ver PDF
+                        </a>
+
+                    {% else %}
+
+                        <a href="/static/uploads/{{ archivo }}"
+                           target="_blank"
+                           class="boton-principal">
+                            📎 Ver archivo
+                        </a>
+
+                    {% endif %}
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                <a href="/alumnos/evidencias/editar/{{ e['id_evidencia'] }}"
+                   class="boton-principal">
+                    ✏️ Editar
+                </a>
+
+                <a href="/alumnos/evidencias/eliminar/{{ e['id_evidencia'] }}"
+                   onclick="return confirm('¿Eliminar esta evidencia?')"
+                   class="boton-secundario">
+                    🗑️ Eliminar
+                </a>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% else %}
+        <p>No hay evidencias registradas.</p>
+    {% endif %}
+
+    <br>
+
+    <div style="text-align:center;">
+        <a href="/alumnos/panel" class="boton-secundario">
+            ⬅ Volver al panel
+        </a>
+    </div>
+
+</section>
+
+</main>
+
+<div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="imgModal">
+</div>
+
+<script>
+function openModal(src){
+    document.getElementById("myModal").style.display="block";
+    document.getElementById("imgModal").src=src;
+}
+
+function closeModal(){
+    document.getElementById("myModal").style.display="none";
+}
+</script>
+
+<footer>
+    <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+</footer>
+
+</body>
+</html>

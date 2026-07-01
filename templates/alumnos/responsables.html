@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsables — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/alumnos/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>👨‍🏫 Responsables</h1>
+        <p>Consulta los responsables del proyecto PEC.</p>
+    </section>
+</header>
+
+<main>
+
+<section class="tarjetas-contenedor">
+
+    {% if maestros %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cargo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in maestros %}
+            <tr>
+                <td>{{ m['id_maestro'] }}</td>
+                <td>{{ m['nombre'] }}</td>
+                <td>{{ m['cargo'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No hay responsables registrados.</p>
+    {% endif %}
+
+    <br>
+
+    <div style="text-align:center;">
+        <a href="/alumnos/panel" class="boton-secundario">
+            ⬅ Volver al panel
+        </a>
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+</footer>
+
+</body>
+</html>

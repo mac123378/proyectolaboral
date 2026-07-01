@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PEC — Separar hoy, ver un mejor mañana</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+    <header class="encabezado">
+        <nav class="menu">
+            <h2>🌿 PEC San José del Rincón</h2>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="#presentacion">Presentación</a></li>
+                <li><a href="#acceso">Acceso</a></li>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <h1>Separar hoy, ver un mejor mañana</h1>
+            <p>
+                Sistema de información del Proyecto Escolar Comunitario
+                desarrollado en San José del Rincón. Registra actividades,
+                responsables, evidencias y sedes de la campaña de reciclaje.
+            </p>
+            <a href="/login" class="boton-principal">Iniciar sesión</a>
+            &nbsp;&nbsp;
+            <a href="/registro" class="boton-secundario">Registrarse</a>
+        </section>
+    </header>
+
+    <main>
+
+        <!-- PRESENTACIÓN -->
+        <section id="presentacion" class="seccion">
+            <h2>¿Qué es el PEC?</h2>
+            <p>
+                El Proyecto Escolar Comunitario (PEC) "Separar hoy, ver un mejor mañana"
+                es una iniciativa desarrollada en la cabecera municipal de
+                San José del Rincón durante el ciclo escolar 2025-2026,
+                Submódulo 1 — 4to Semestre.
+            </p>
+            <p>
+                Su propósito es registrar y organizar de manera eficiente
+                todas las actividades, los responsables a cargo, las evidencias
+                generadas y las sedes donde se llevan a cabo las acciones
+                de la campaña de reciclaje y separación de residuos.
+            </p>
+        </section>
+
+        <section class="seccion fondo-claro">
+            <h2>Objetivo del proyecto</h2>
+            <p>
+                Fomentar la cultura del reciclaje y separación de residuos
+                en la comunidad escolar y municipal, registrando cada actividad
+                de forma organizada para facilitar el seguimiento y evaluación
+                del proyecto a lo largo del ciclo escolar 2025-2026.
+            </p>
+        </section>
+
+        <!-- ACCESO AL SISTEMA -->
+        <section id="acceso" class="tarjetas-contenedor">
+            <h2>Acceso al sistema</h2>
+
+            <div class="tarjetas">
+
+                <div class="tarjeta-info">
+                    <h3>🔑 Iniciar sesión</h3>
+                    <p>
+                        ¿Ya tienes una cuenta? Ingresa con tu correo
+                        y contraseña para acceder al sistema.
+                    </p>
+                    <br>
+                    <a href="/login" class="boton-principal">Iniciar sesión</a>
+                </div>
+
+                <div class="tarjeta-info">
+                    <h3>📝 Registrarse</h3>
+                    <p>
+                        ¿Primera vez? Crea tu cuenta indicando si eres
+                        maestro o alumno para acceder a tu panel.
+                    </p>
+                    <br>
+                    <a href="/registro" class="boton-principal">Crear cuenta</a>
+                </div>
+
+                <div class="tarjeta-info">
+                    <h3>🌱 Actividades</h3>
+                    <p>
+                        Consulta las actividades registradas, sus fechas,
+                        responsables y evidencias de la campaña.
+                    </p>
+                    <br>
+                    <a href="/login" class="boton-principal">Ver actividades</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ROLES -->
+        <section class="seccion">
+            <h2>¿Cuál es tu rol?</h2>
+            <p>
+                El sistema cuenta con dos tipos de acceso según el rol
+                del usuario registrado en la plataforma.
+            </p>
+            <br>
+            <div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center;">
+
+                <a href="/login" class="rol-card" style="max-width:300px;">
+                    <span class="icono">👨‍🏫</span>
+                    <h3>Maestro</h3>
+                    <p>
+                        Registra y administra actividades, responsables,
+                        evidencias y sedes del proyecto PEC.
+                    </p>
+                </a>
+
+                <a href="/login" class="rol-card" style="max-width:300px;">
+                    <span class="icono">🎒</span>
+                    <h3>Alumno</h3>
+                    <p>
+                        Consulta las actividades y evidencias del proyecto
+                        de reciclaje de tu plantel.
+                    </p>
+                    
+                    <a href="/login" class="rol-card" style="max-width:300px;">
+                    <span class="icono">✏️</span>
+                    <h3>Administrador</h3>
+                    <p>
+                        Registra, edita y elimina usuarios, así como agregar y gestionar 
+                        las sedes donde se realizan las actividades.
+
+                    </p>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón — Ciclo 2025-2026</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actividad — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+
+    <style>
+        td img{
+            width:220px;
+            height:170px;
+            object-fit:cover;
+            border-radius:10px;
+            border:2px solid #8bc34a;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        td img:hover{
+            transform:scale(1.05);
+        }
+
+        .modal{
+            display:none;
+            position:fixed;
+            z-index:999;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,.8);
+        }
+
+        .modal-content{
+            display:block;
+            margin:5% auto;
+            max-width:80%;
+            max-height:80%;
+        }
+
+        .close{
+            position:absolute;
+            top:20px;
+            right:35px;
+            color:white;
+            font-size:45px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="encabezado">
+
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+
+        <ul>
+            <li><a href="/alumnos/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>{{ actividad['fecha_entrega'] }}</h1>
+        <p>{{ actividad['descripcion'] }}</p>
+    </section>
+
+</header>
+
+<main>
+
+<section class="tarjetas-contenedor">
+
+<h2>📸 Evidencia correspondiente</h2>
+
+{% if evidencia %}
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Título</th>
+<th>Archivo</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>{{ evidencia['id_evidencia'] }}</td>
+
+<td>{{ evidencia['fecha_evidencia'] }}</td>
+
+<td>
+
+{% set archivo = evidencia['evidencia'] %}
+
+{% if archivo.endswith('.jpg') or archivo.endswith('.jpeg') or archivo.endswith('.png') or archivo.endswith('.webp') %}
+
+<img src="/static/uploads/{{ archivo }}" onclick="openModal(this.src)">
+
+{% elif archivo.endswith('.mp4') or archivo.endswith('.avi') or archivo.endswith('.mov') %}
+
+<video width="250" controls>
+<source src="/static/uploads/{{ archivo }}">
+</video>
+
+{% elif archivo.endswith('.pdf') %}
+
+<a href="/static/uploads/{{ archivo }}" target="_blank" class="boton-principal">
+📄 Abrir PDF
+</a>
+
+{% else %}
+
+<a href="/static/uploads/{{ archivo }}" target="_blank" class="boton-principal">
+📎 Descargar archivo
+</a>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<h3>⚠ Esta actividad aún no tiene una evidencia asignada.</h3>
+
+{% endif %}
+
+<br>
+
+<a href="/alumnos/actividades" class="boton-secundario">
+⬅ Volver
+</a>
+
+</section>
+
+</main>
+
+<div id="myModal" class="modal">
+<span class="close" onclick="closeModal()">&times;</span>
+<img class="modal-content" id="imgModal">
+</div>
+
+<script>
+
+function openModal(src){
+
+document.getElementById("myModal").style.display="block";
+document.getElementById("imgModal").src=src;
+
+}
+
+function closeModal(){
+
+document.getElementById("myModal").style.display="none";
+
+}
+
+</script>
+
+</body>
+</html>

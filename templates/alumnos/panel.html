@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Alumno — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+
+    <style>
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #c5e1a5;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .tab-btn.active {
+            background: #558b2f;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f8e9;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/alumnos/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Panel Alumno 🎒</h1>
+        <p>Consulta actividades, responsables y evidencias del proyecto PEC.</p>
+    </section>
+</header>
+
+<main>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab('actividades', event)">📋 Actividades</button>
+    <button class="tab-btn" onclick="openTab('responsables', event)">👨‍🏫 Responsables</button>
+    <button class="tab-btn" onclick="openTab('evidencias', event)">📸 Evidencias</button>
+</div>
+
+<!-- ACTIVIDADES -->
+<div id="actividades" class="tab-content active">
+    <section class="tarjetas-contenedor">
+        <h2>📋 Actividades del proyecto</h2>
+        <p>Haz clic en una actividad para ver su evidencia.</p>
+
+        {% if actividades %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in actividades %}
+                <tr onclick="window.location='/alumnos/actividades/{{ a['id_actividad'] }}'" style="cursor:pointer;">
+                    <td>{{ a['id_actividad'] }}</td>
+                    <td>{{ a['fecha_entrega'] }}</td>
+                    <td>{{ a['descripcion'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No hay actividades registradas aún.</p>
+        {% endif %}
+
+    </section>
+</div>
+
+<!-- RESPONSABLES -->
+<div id="responsables" class="tab-content">
+    <section class="tarjetas-contenedor">
+        <h2>👨‍🏫 Responsables del proyecto</h2>
+
+        {% if maestros %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in maestros %}
+                <tr>
+                    <td>{{ m['id_maestro'] }}</td>
+                    <td>{{ m['nombre'] }}</td>
+                    <td>{{ m['cargo'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No hay responsables registrados aún.</p>
+        {% endif %}
+
+    </section>
+</div>
+
+<!-- EVIDENCIAS -->
+<div id="evidencias" class="tab-content">
+    <section class="tarjetas-contenedor">
+        <h2>📸 Subir evidencia</h2>
+
+        <form action="/alumnos/evidencias" method="POST" enctype="multipart/form-data">
+            <input type="text" name="titulo" placeholder="Título" required>
+            <input type="file" name="archivo" required>
+            <button type="submit">Subir</button>
+        </form>
+    </section>
+
+    <section class="tarjetas-contenedor">
+        <h2>📁 Evidencias</h2>
+
+        {% if evidencias %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Archivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in evidencias %}
+                <tr>
+                    <td>{{ e['id_evidencia'] }}</td>
+                    <td>{{ e['fecha_evidencia'] }}</td>
+                    <td>
+                        {% set archivo = e['evidencia'] %}
+                        {% if archivo %}
+                            {% if archivo.endswith('.jpg') or archivo.endswith('.jpeg') or archivo.endswith('.png') or archivo.endswith('.webp') %}
+                                <img src="/static/uploads/{{ archivo }}" width="120">
+                            {% elif archivo.endswith('.mp4') or archivo.endswith('.mov') %}
+                                <video width="150" controls>
+                                    <source src="/static/uploads/{{ archivo }}">
+                                </video>
+                            {% elif archivo.endswith('.pdf') %}
+                                <a href="/static/uploads/{{ archivo }}" target="_blank">📄 Ver PDF</a>
+                            {% else %}
+                                <a href="/static/uploads/{{ archivo }}" target="_blank">📎 Ver archivo</a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No hay evidencias registradas aún.</p>
+        {% endif %}
+
+    </section>
+</div>
+
+</main>
+
+<script>
+function openTab(tab, event) {
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+
+    document.getElementById(tab).classList.add("active");
+    event.target.classList.add("active");
+}
+</script>
+
+</body>
+</html>

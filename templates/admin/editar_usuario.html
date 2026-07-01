@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Usuario — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+<header class="encabezado">
+    <nav class="menu">
+        <h2>🌿 PEC San José del Rincón</h2>
+        <ul>
+            <li><a href="/admin/panel">Panel</a></li>
+            <li><a href="/logout">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    <section class="hero">
+        <h1>✏️ Editar Usuario</h1>
+        <p>Modifica los datos del usuario seleccionado.</p>
+    </section>
+</header>
+
+<main>
+<section class="seccion">
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" value="{{ usuario['nombre'] }}" required>
+        </div>
+        <div class="form-group">
+            <label>Correo:</label>
+            <input type="email" name="correo" value="{{ usuario['correo'] }}" required>
+        </div>
+        <div class="form-group">
+            <label>Rol:</label>
+            <select name="rol" required>
+                <option value="Maestro" {{ 'selected' if usuario['rol'] == 'Maestro' }}>Maestro</option>
+                <option value="Alumno" {{ 'selected' if usuario['rol'] == 'Alumno' }}>Alumno</option>
+                <option value="Administrador" {{ 'selected' if usuario['rol'] == 'Administrador' }}>Administrador</option>
+            </select>
+        </div>
+        <button type="submit" class="boton-principal">💾 Guardar cambios</button>
+    </form>
+
+    <br>
+    <div style="text-align:center;">
+        <a href="/admin/usuarios" class="boton-secundario">⬅ Volver a usuarios</a>
+    </div>
+
+</section>
+</main>
+
+<footer>
+    <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+</footer>
+
+</body>
+</html>

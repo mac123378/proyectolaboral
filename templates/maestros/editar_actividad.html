@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Actividad — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+    <header class="encabezado">
+        <nav class="menu">
+            <h2>🌿 PEC San José del Rincón</h2>
+            <ul>
+                <li><a href="/maestros/panel">Panel</a></li>
+                <li><a href="/maestros/responsables">Responsables</a></li>
+                <li><a href="/maestros/actividades">Actividades</a></li>
+                <li><a href="/maestros/evidencias">Evidencias</a></li>
+                <li><a href="/logout">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+        <section class="hero">
+            <h1>✏️ Editar Actividad</h1>
+            <p>Modifica los datos de la actividad seleccionada.</p>
+        </section>
+    </header>
+
+    <main>
+        <section class="seccion">
+            <div class="form-container">
+                <h2>Editar actividad</h2>
+
+                <form action="/maestros/actividades/editar/{{ id }}" method="POST">
+                    <div class="form-group">
+                        <label>Título:</label>
+                        <input type="text" name="titulo"
+                               value="{{ actividad['fecha_entrega'] }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <input type="text" name="descripcion"
+                               value="{{ actividad['descripcion'] }}" required>
+                    </div>
+                    <button type="submit" class="form-btn">
+                        💾 Guardar cambios
+                    </button>
+                </form>
+
+                <br>
+                <a href="/maestros/actividades" class="boton-secundario">
+                    ← Cancelar
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+    </footer>
+
+</body>
+</html>

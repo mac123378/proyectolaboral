@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actividades — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+    <header class="encabezado">
+        <nav class="menu">
+            <h2>🌿 PEC San José del Rincón</h2>
+            <ul>
+                <li><a href="/maestros/panel">Panel</a></li>
+                <li><a href="/maestros/responsables">Responsables</a></li>
+                <li><a href="/maestros/actividades">Actividades</a></li>
+                <li><a href="/maestros/evidencias">Evidencias</a></li>
+                <li><a href="/logout">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+        <section class="hero">
+            <h1>📚 Actividades</h1>
+            <p>Registra y administra las actividades del proyecto PEC.</p>
+        </section>
+    </header>
+
+    <main>
+
+        {% if request.args.get('ok') == '1' %}
+            <div style="background:#e8f5e9; color:#1b5e20; padding:15px;
+                        margin:10px 20px; border-radius:8px; font-weight:bold;">
+                ✅ Actividad guardada correctamente.
+            </div>
+        {% endif %}
+
+        <section class="seccion">
+            <h2>Agregar actividad</h2>
+
+            <form action="/maestros/actividades" method="POST">
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" name="titulo"
+                           placeholder="Título de la actividad" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <input type="text" name="descripcion"
+                           placeholder="Descripción de la actividad" required>
+                </div>
+                <button type="submit" class="boton-secundario">
+                    💾 Guardar
+                </button>
+            </form>
+        </section>
+
+        <section class="tarjetas-contenedor">
+            <h2>Actividades registradas</h2>
+
+            {% if actividades %}
+            <table border="1" style="width:100%; border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in actividades %}
+                    <tr>
+                        <td>{{ a['id_actividad'] }}</td>
+                        <td>{{ a['fecha_entrega'] }}</td>
+                        <td>{{ a['descripcion'] }}</td>
+                        <td>
+                            <a href="/maestros/actividades/editar/{{ a['id_actividad'] }}"
+                               class="boton-principal">✏️ Editar</a>
+                            <a href="/maestros/actividades/eliminar/{{ a['id_actividad'] }}"
+                               onclick="return confirm('¿Eliminar esta actividad?')"
+                               class="boton-secundario">🗑️ Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>No hay actividades registradas aún.</p>
+            {% endif %}
+
+            <br>
+            <a href="/maestros/panel" class="boton-principal">← Volver al panel</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+    </footer>
+
+</body>
+</html>

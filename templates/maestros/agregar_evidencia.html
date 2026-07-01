@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Evidencias — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+    <style>
+        td img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #c5e1a5;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        td img:hover {
+            transform: scale(1.05);
+            border-color: #558b2f;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .modal-content {
+            margin: 5% auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+        .close {
+            position: absolute;
+            top: 20px; right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="encabezado">
+        <nav class="menu">
+            <h2>🌿 PEC San José del Rincón</h2>
+            <ul>
+                <li><a href="/maestros/panel">Panel</a></li>
+                <li><a href="/maestros/responsables">Responsables</a></li>
+                <li><a href="/maestros/actividades">Actividades</a></li>
+                <li><a href="/maestros/evidencias">Evidencias</a></li>
+                <li><a href="/logout">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+        <section class="hero">
+            <h1>📸 Evidencias</h1>
+            <p>Consulta las evidencias subidas por los alumnos.</p>
+        </section>
+    </header>
+
+    <main>
+
+        <section class="tarjetas-contenedor">
+            <h2>Evidencias registradas por alumnos</h2>
+
+            {% if evidencias %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Archivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in evidencias %}
+                    <tr>
+                        <td>{{ e['id_evidencia'] }}</td>
+                        <td>{{ e['fecha_evidencia'] }}</td>
+                        <td>
+                            {% set archivo = e['evidencia'] %}
+                            {% if archivo %}
+                                {% if archivo.endswith('.jpg') or archivo.endswith('.jpeg')
+                                   or archivo.endswith('.png') or archivo.endswith('.webp') %}
+                                    <img src="/static/uploads/{{ archivo }}"
+                                         onclick="openModal(this.src)">
+                                {% elif archivo.endswith('.mp4') or archivo.endswith('.mov')
+                                     or archivo.endswith('.avi') %}
+                                    <video width="200" height="150" controls
+                                           style="border-radius:8px;">
+                                        <source src="/static/uploads/{{ archivo }}">
+                                    </video>
+                                {% elif archivo.endswith('.pdf') %}
+                                    <a href="/static/uploads/{{ archivo }}"
+                                       target="_blank" class="boton-principal"
+                                       style="padding:6px 14px; font-size:13px;">
+                                       📄 Ver PDF
+                                    </a>
+                                {% else %}
+                                    <a href="/static/uploads/{{ archivo }}"
+                                       target="_blank" class="boton-principal"
+                                       style="padding:6px 14px; font-size:13px;">
+                                       📎 Ver archivo
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <span>Sin archivo</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>No hay evidencias registradas aún.</p>
+            {% endif %}
+
+            <br>
+            <a href="/maestros/panel" class="boton-principal">← Volver al panel</a>
+        </section>
+
+    </main>
+
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgModal">
+    </div>
+
+    <script>
+        function openModal(src) {
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("imgModal").src = src;
+        }
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+        window.onclick = function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) modal.style.display = "none";
+        }
+    </script>
+
+    <footer>
+        <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+    </footer>
+
+</body>
+</html>

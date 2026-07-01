@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión — PEC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos_eco.css') }}">
+</head>
+<body>
+
+    <header class="encabezado">
+        <nav class="menu">
+            <h2>🌿 PEC San José del Rincón</h2>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registro">Registrarse</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <h1>Bienvenido de nuevo</h1>
+            <p>Ingresa tus datos para acceder al sistema del PEC.</p>
+        </section>
+    </header>
+
+    <main>
+        <section class="seccion">
+
+            <div class="form-container">
+                <h2>🔑 Iniciar sesión</h2>
+
+                {% if request.args.get('error') == '1' %}
+                    <div class="alerta-error">
+                        ⚠️ Correo o contraseña incorrectos.
+                    </div>
+                {% endif %}
+
+                <form action="/login" method="POST">
+
+                    <div class="form-group">
+                        <label>Correo electrónico:</label>
+                        <input type="email" name="correo"
+                               placeholder="tu@correo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña:</label>
+                        <input type="password" name="password"
+                               placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="form-btn">
+                        Iniciar sesión
+                    </button>
+
+                </form>
+
+                <div class="form-link">
+                    ¿No tienes cuenta?
+                    <a href="/registro">Regístrate aquí</a>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>🌿 PEC | "Separar hoy, ver un mejor mañana" | San José del Rincón</p>
+    </footer>
+
+</body>
+</html>
